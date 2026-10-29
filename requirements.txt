@@ -1,0 +1,2 @@
+langgraph==1.2.16
+typing-extensions>=4.5,<5
