@@ -10,7 +10,13 @@ LangGraph 学习与源码研究。通过一个需求分析助手，掌握状态�
 langgraph-demo/
 ├── requirements.txt
 ├── README.md
-└── day01/
+├── .env.example
+├── day01/
+│   ├── __init__.py
+│   ├── demo.py
+│   ├── test_demo.py
+│   └── README.md
+└── day02/
     ├── __init__.py
     ├── demo.py
     ├── test_demo.py
@@ -20,6 +26,7 @@ langgraph-demo/
 | 天数 | 内容 | 学习入口 | 运行命令 |
 | --- | --- | --- | --- |
 | 第 1 天 | State、Node、Edge 与普通函数节点 | [day01 学习说明](day01/README.md) | `python -m day01.demo --steps` |
+| 第 2 天 | 接入模型、MessagesState 与连续对话 | [day02 学习说明](day02/README.md) | `python -m day02.demo --offline --steps` |
 
 ### 安装与运行
 
@@ -40,6 +47,17 @@ python -m unittest day01.test_demo -v
 ```bash
 .venv/bin/python -m day01.demo --steps
 .venv/bin/python -m unittest day01.test_demo -v
+```
+
+第 2 天先离线观察消息累积，再按 [day02 学习说明](day02/README.md) 配置真实模型：
+
+```bash
+.venv/bin/python -m day02.demo --offline --steps
+.venv/bin/python -m unittest day02.test_demo -v
+
+# 复制并填写模型配置后运行真实模型。
+cp .env.example .env
+.venv/bin/python -m day02.demo --interactive --steps
 ```
 
 第 1 天运行时不调用模型，无需 API Key。PyCharm 中选择 `Python 3.12 (langgraph-demo)`，解释器路径为项目下的 `.venv/bin/python`，直接运行 `day01/demo.py` 即可。学习源码时，可另外打开相邻的 `langgraph` 项目。
