@@ -51,8 +51,8 @@ def offline_reply(messages: list[BaseMessage]) -> AIMessage:
     return AIMessage(content="你好，我是需求分析助手。" if "你好" in question else "请描述你的问题。")
 
 
-def build_graph(model):
-    """model 已经绑定工具，或是能返回 tool_calls 的离线替身。"""
+def build_graph(model, checkpointer=None):
+    """model 已绑定工具；可选 checkpointer 用于后续持久化示例。"""
     def assistant(state: MessagesState):
         messages = [SystemMessage(content=SYSTEM_PROMPT), *state["messages"]]
         response = model.invoke(messages)
@@ -66,7 +66,7 @@ def build_graph(model):
     builder.add_edge(START, "assistant")
     builder.add_conditional_edges("assistant", tools_condition)
     builder.add_edge("tools", "assistant")
-    return builder.compile()
+    return builder.compile(checkpointer=checkpointer)
 
 
 def print_history(session: ChatSession) -> None:

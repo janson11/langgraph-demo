@@ -21,7 +21,12 @@ langgraph-demo/
 │   ├── demo.py
 │   ├── test_demo.py
 │   └── README.md
-└── day03/
+├── day03/
+│   ├── __init__.py
+│   ├── demo.py
+│   ├── test_demo.py
+│   └── README.md
+└── day04/
     ├── __init__.py
     ├── demo.py
     ├── test_demo.py
@@ -33,6 +38,7 @@ langgraph-demo/
 | 第 1 天 | State、Node、Edge 与普通函数节点 | [day01 学习说明](day01/README.md) | `python -m day01.demo --steps` |
 | 第 2 天 | 接入模型、MessagesState 与连续对话 | [day02 学习说明](day02/README.md) | `python -m day02.demo --offline --steps` |
 | 第 3 天 | 自定义工具与条件分支 | [day03 学习说明](day03/README.md) | `python -m day03.demo --offline --steps` |
+| 第 4 天 | SQLite checkpoint 与 thread_id 会话恢复 | [day04 学习说明](day04/README.md) | `python -m day04.demo --offline --steps` |
 
 ### 安装与运行
 
@@ -68,6 +74,10 @@ cp .env.example .env
 # 第 3 天：观察调用工具与直接回答两条路径。
 .venv/bin/python -m day03.demo --offline --steps
 .venv/bin/python -m unittest day03.test_demo -v
+
+# 第 4 天：重启后使用相同 thread_id 继续会话。
+.venv/bin/python -m day04.demo --offline --steps --thread-id project-a
+.venv/bin/python -m unittest day04.test_demo -v
 ```
 
 第 1 天运行时不调用模型，无需 API Key。PyCharm 中选择 `Python 3.12 (langgraph-demo)`，解释器路径为项目下的 `.venv/bin/python`，直接运行 `day01/demo.py` 即可。学习源码时，可另外打开相邻的 `langgraph` 项目。
