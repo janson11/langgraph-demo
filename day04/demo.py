@@ -47,7 +47,7 @@ def main() -> None:
     except (ValueError, ImportError) as exc:
         parser.exit(1, f"初始化失败：{exc}\n请检查依赖与模型配置，或使用 --offline。\n")
 
-    args.db.parent.mkdir(parents=True, exist_ok=True)
+    args.db.parent.mkdi r(parents=True, exist_ok=True)
     config = {"configurable": {"thread_id": args.thread_id}}
     with SqliteSaver.from_conn_string(str(args.db)) as saver:
         graph = build_graph(model, checkpointer=saver)
