@@ -36,7 +36,12 @@ langgraph-demo/
 │   ├── demo.py
 │   ├── test_demo.py
 │   └── README.md
-└── day06/
+├── day06/
+│   ├── __init__.py
+│   ├── demo.py
+│   ├── test_demo.py
+│   └── README.md
+└── day07/
     ├── __init__.py
     ├── demo.py
     ├── test_demo.py
@@ -51,6 +56,27 @@ langgraph-demo/
 | 第 4 天 | SQLite checkpoint 与 thread_id 会话恢复 | [day04 学习说明](day04/README.md) | `python -m day04.demo --offline --steps` |
 | 第 5 天 | 工具执行前人工确认与中断恢复 | [day05 学习说明](day05/README.md) | `python -m day05.demo --offline --steps` |
 | 第 6 天 | SQLite checkpoint 历史与会话隔离 | [day06 学习说明](day06/README.md) | `python -m day06.demo --threads` |
+| 第 7 天 | 报告审核通过、退回意见与重新生成 | [day07 学习说明](day07/README.md) | `python -m day07.demo --thread-id report-a --requirement "输出报告前需要人工审核"` |
+
+### 当前 Demo 执行流程（第 1～6 天）
+
+```mermaid
+graph TD
+    A["提交消息与 thread_id"] --> B["assistant 生成回复"]
+    B --> C{"需要调用工具？"}
+    C -->|否| D["结束本轮对话"]
+    C -->|是| E["review：interrupt 暂停"]
+    E --> F{"恢复时的人工决定"}
+    F -->|approve| G["tools 查询资料"]
+    F -->|reject| H["写入拒绝的 ToolMessage"]
+    G --> B
+    H --> B
+    B -.-> I["SQLite checkpoint"]
+    E -.-> I
+    I -.-> J["day06 查看最新状态与历史快照"]
+```
+
+`thread_id` 标识会话；不同 ID 的状态分别保存。图中的虚线表示状态保存和只读查询；重启后使用相同的数据库和 `thread_id` 恢复。第 6 天的历史查询不会推进图或修改当前状态。`review` 审核的是工具调用，报告审核与退回属于后续练习。
 
 ### 安装与运行
 
@@ -100,6 +126,12 @@ cp .env.example .env
 .venv/bin/python -m day06.demo --threads
 .venv/bin/python -m day06.demo --thread-id review-a
 .venv/bin/python -m unittest day06.test_demo -v
+
+# 第 7 天：退回报告并携带修改意见重新生成，最后审核通过。
+.venv/bin/python -m day07.demo --thread-id report-a --requirement "输出报告前需要人工审核"
+.venv/bin/python -m day07.demo --thread-id report-a --resume reject --feedback "补充验收标准"
+.venv/bin/python -m day07.demo --thread-id report-a --resume approve
+.venv/bin/python -m unittest day07.test_demo -v
 ```
 
 第 1 天运行时不调用模型，无需 API Key。PyCharm 中选择 `Python 3.12 (langgraph-demo)`，解释器路径为项目下的 `.venv/bin/python`，直接运行 `day01/demo.py` 即可。学习源码时，可另外打开相邻的 `langgraph` 项目。
