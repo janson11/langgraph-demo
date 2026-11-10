@@ -4,7 +4,7 @@ LangGraph 学习与源码研究。通过一个需求分析助手，掌握状态�
 
 ## 按天分包的学习 DEMO
 
-每天的示例放在独立的 `dayXX` Python 包中，每个包包含当天代码、说明和验证用例，方便分别运行与学习。
+每天的示例放在独立的 `dayXX` Python 包中，包含当天代码和说明；需要行为验证的示例另有测试文件，方便分别运行与学习。
 
 ```text
 langgraph-demo/
@@ -46,10 +46,14 @@ langgraph-demo/
 │   ├── demo.py
 │   ├── test_demo.py
 │   └── README.md
-└── day08/
+├── day08/
+│   ├── __init__.py
+│   ├── demo.py
+│   ├── test_demo.py
+│   └── README.md
+└── day09/
     ├── __init__.py
     ├── demo.py
-    ├── test_demo.py
     └── README.md
 ```
 
@@ -63,6 +67,7 @@ langgraph-demo/
 | 第 6 天 | SQLite checkpoint 历史与会话隔离 | [day06 学习说明](day06/README.md) | `python -m day06.demo --threads` |
 | 第 7 天 | 报告审核通过、退回意见与重新生成 | [day07 学习说明](day07/README.md) | `python -m day07.demo --thread-id report-a --requirement "输出报告前需要人工审核"` |
 | 第 8 天 | 工具异常、节点失败恢复与幂等发布 | [day08 学习说明](day08/README.md) | `python -m day08.demo --thread-id report-a --start --fail-at after-write` |
+| 第 9 天 | 追踪构图、执行循环与状态合并源码 | [day09 学习说明](day09/README.md) | `python -m day09.demo` |
 
 ### 当前 Demo 执行流程（第 1～6 天）
 
@@ -143,6 +148,9 @@ cp .env.example .env
 .venv/bin/python -m day08.demo --thread-id report-a --start --fail-at after-write
 .venv/bin/python -m day08.demo --thread-id report-a --retry
 .venv/bin/python -m unittest day08.test_demo -v
+
+# 第 9 天：观察节点局部更新与合并后的状态，沿输出阅读源码。
+.venv/bin/python -m day09.demo
 ```
 
 第 1 天运行时不调用模型，无需 API Key。PyCharm 中选择 `Python 3.12 (langgraph-demo)`，解释器路径为项目下的 `.venv/bin/python`，直接运行 `day01/demo.py` 即可。学习源码时，可另外打开相邻的 `langgraph` 项目。
