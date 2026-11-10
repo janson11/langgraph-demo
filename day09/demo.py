@@ -29,7 +29,7 @@ def trace_run(graph, config: dict, value: dict | Command, previous: dict) -> dic
             for key, item in changes.items():
                 print(f"    合并后 {key} = {describe_value(key, item)}")
             current = state
-    snapshot = graph.get_·state(config)
+    snapshot = graph.get_state(config)
     print(f"  checkpoint 下一节点：{', '.join(snapshot.next) if snapshot.next else '结束'}")
     return current
 
